@@ -48,6 +48,27 @@ export class OpenAiNativeHandler implements ApiHandler, SingleCompletionHandler 
 				}
 				break
 			}
+			case "o3-mini-2025-01-14": {
+				// o1-preview and o1-mini don't support streaming, non-1 temp, or system prompt
+				// o1 doesnt support streaming or non-1 temp but does support a developer prompt
+				const response = await this.client.chat.completions.create({
+					model: modelId,
+					messages: [
+						{ role: modelId === "o3-mini-2025-01-14" ? "developer" : "user", content: systemPrompt },
+						...convertToOpenAiMessages(messages),
+					],
+				})
+				yield {
+					type: "text",
+					text: response.choices[0]?.message.content || "",
+				}
+				yield {
+					type: "usage",
+					inputTokens: response.usage?.prompt_tokens || 0,
+					outputTokens: response.usage?.completion_tokens || 0,
+				}
+				break
+			}
 			default: {
 				const stream = await this.client.chat.completions.create({
 					model: this.getModel().id,
@@ -97,6 +118,13 @@ export class OpenAiNativeHandler implements ApiHandler, SingleCompletionHandler 
 			switch (modelId) {
 				case "o1":
 				case "o1-preview":
+				case "o3-mini-2025-01-14":
+					// o1 doesn't support non-1 temp
+					requestOptions = {
+						model: modelId,
+						messages: [{ role: "user", content: prompt }],
+					}
+					break
 				case "o1-mini":
 					// o1 doesn't support non-1 temp
 					requestOptions = {

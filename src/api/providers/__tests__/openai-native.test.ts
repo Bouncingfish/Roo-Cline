@@ -158,6 +158,43 @@ describe("OpenAiNativeHandler", () => {
 				],
 			})
 		})
+
+		it("should handle missing content in response for o3-mini-2025-01-14 model", async () => {
+			// Use o3-mini-2025-01-14 model which supports developer role
+			handler = new OpenAiNativeHandler({
+				...mockOptions,
+				apiModelId: "o3-mini-2025-01-14",
+			})
+
+			mockCreate.mockResolvedValueOnce({
+				choices: [{ message: { content: null } }],
+				usage: {
+					prompt_tokens: 0,
+					completion_tokens: 0,
+					total_tokens: 0,
+				},
+			})
+
+			const generator = handler.createMessage(systemPrompt, messages)
+			const results = []
+			for await (const result of generator) {
+				results.push(result)
+			}
+
+			expect(results).toEqual([
+				{ type: "text", text: "" },
+				{ type: "usage", inputTokens: 0, outputTokens: 0 },
+			])
+
+			// Verify developer role is used for system prompt with o3-mini-2025-01-14 model
+			expect(mockCreate).toHaveBeenCalledWith({
+				model: "o3-mini-2025-01-14",
+				messages: [
+					{ role: "developer", content: systemPrompt },
+					{ role: "user", content: "Hello!" },
+				],
+			})
+		})
 	})
 
 	describe("streaming models", () => {
@@ -285,6 +322,20 @@ describe("OpenAiNativeHandler", () => {
 			expect(result).toBe("Test response")
 			expect(mockCreate).toHaveBeenCalledWith({
 				model: "o1-mini",
+				messages: [{ role: "user", content: "Test prompt" }],
+			})
+		})
+
+		it("should complete prompt successfully with o3-mini-2025-01-14 model", async () => {
+			handler = new OpenAiNativeHandler({
+				apiModelId: "o3-mini-2025-01-14",
+				openAiNativeApiKey: "test-api-key",
+			})
+
+			const result = await handler.completePrompt("Test prompt")
+			expect(result).toBe("Test response")
+			expect(mockCreate).toHaveBeenCalledWith({
+				model: "o3-mini-2025-01-14",
 				messages: [{ role: "user", content: "Test prompt" }],
 			})
 		})
