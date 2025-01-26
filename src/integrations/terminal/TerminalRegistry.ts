@@ -17,7 +17,7 @@ export class TerminalRegistry {
 		const terminal = vscode.window.createTerminal({
 			cwd,
 			name: "Synthience",
-			iconPath: new vscode.ThemeIcon("synthience"),
+			iconPath: new vscode.ThemeIcon("assets/icons/synthience"),
 			env: {
 				PAGER: "cat",
 			},
