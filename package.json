@@ -53,7 +53,7 @@
 				{
 					"id": "synthience-cline-ActivityBar",
 					"title": "Synthience",
-					"icon": "assets/icons/synthience.png"
+					"icon": "$(synthience)"
 				}
 			]
 		},
