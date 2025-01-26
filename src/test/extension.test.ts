@@ -8,16 +8,16 @@ const dotenv = require("dotenv")
 const testEnvPath = path.join(__dirname, ".test_env")
 dotenv.config({ path: testEnvPath })
 
-suite("Roo Code Extension Test Suite", () => {
-	vscode.window.showInformationMessage("Starting Roo Code extension tests.")
+suite("Synthience Extension Test Suite", () => {
+	vscode.window.showInformationMessage("Starting Synthience extension tests.")
 
 	test("Extension should be present", () => {
-		const extension = vscode.extensions.getExtension("RooVeterinaryInc.roo-cline")
+		const extension = vscode.extensions.getExtension("Synthience.synthience-cline")
 		assert.notStrictEqual(extension, undefined)
 	})
 
 	test("Extension should activate", async () => {
-		const extension = vscode.extensions.getExtension("RooVeterinaryInc.roo-cline")
+		const extension = vscode.extensions.getExtension("Synthience.synthience-cline")
 		if (!extension) {
 			assert.fail("Extension not found")
 		}
@@ -31,7 +31,7 @@ suite("Roo Code Extension Test Suite", () => {
 		;(async () => {
 			try {
 				// Get extension instance
-				const extension = vscode.extensions.getExtension("RooVeterinaryInc.roo-cline")
+				const extension = vscode.extensions.getExtension("Synthience.synthience-cline")
 				if (!extension) {
 					done(new Error("Extension not found"))
 					return
@@ -117,15 +117,15 @@ suite("Roo Code Extension Test Suite", () => {
 
 		// Test core commands are registered
 		const expectedCommands = [
-			"roo-cline.plusButtonClicked",
-			"roo-cline.mcpButtonClicked",
-			"roo-cline.historyButtonClicked",
-			"roo-cline.popoutButtonClicked",
-			"roo-cline.settingsButtonClicked",
-			"roo-cline.openInNewTab",
-			"roo-cline.explainCode",
-			"roo-cline.fixCode",
-			"roo-cline.improveCode",
+			"synthience-cline.plusButtonClicked",
+			"synthience-cline.mcpButtonClicked",
+			"synthience-cline.historyButtonClicked",
+			"synthience-cline.popoutButtonClicked",
+			"synthience-cline.settingsButtonClicked",
+			"synthience-cline.openInNewTab",
+			"synthience-cline.explainCode",
+			"synthience-cline.fixCode",
+			"synthience-cline.improveCode",
 		]
 
 		for (const cmd of expectedCommands) {
@@ -135,8 +135,8 @@ suite("Roo Code Extension Test Suite", () => {
 
 	test("Views should be registered", () => {
 		const view = vscode.window.createWebviewPanel(
-			"roo-cline.SidebarProvider",
-			"Roo Code",
+			"synthience-cline.SidebarProvider",
+			"Synthience",
 			vscode.ViewColumn.One,
 			{},
 		)
@@ -152,7 +152,7 @@ suite("Roo Code Extension Test Suite", () => {
 		const interval = 1000
 
 		// Get extension instance
-		const extension = vscode.extensions.getExtension("RooVeterinaryInc.roo-cline")
+		const extension = vscode.extensions.getExtension("Synthience.synthience-cline")
 		if (!extension) {
 			assert.fail("Extension not found")
 			return
@@ -184,12 +184,17 @@ suite("Roo Code Extension Test Suite", () => {
 
 		// Create webview panel with development options
 		const extensionUri = extension.extensionUri
-		const panel = vscode.window.createWebviewPanel("roo-cline.SidebarProvider", "Roo Code", vscode.ViewColumn.One, {
-			enableScripts: true,
-			enableCommandUris: true,
-			retainContextWhenHidden: true,
-			localResourceRoots: [extensionUri],
-		})
+		const panel = vscode.window.createWebviewPanel(
+			"synthience-cline.SidebarProvider",
+			"Synthience",
+			vscode.ViewColumn.One,
+			{
+				enableScripts: true,
+				enableCommandUris: true,
+				retainContextWhenHidden: true,
+				localResourceRoots: [extensionUri],
+			},
+		)
 
 		try {
 			// Initialize webview with development context

@@ -249,7 +249,7 @@ describe("vscode-lm-format", () => {
 			}
 
 			await expect(convertToAnthropicMessage(vsCodeMessage as any)).rejects.toThrow(
-				"Roo Code <Language Model API>: Only assistant messages are supported.",
+				"Synthience <Language Model API>: Only assistant messages are supported.",
 			)
 		})
 	})

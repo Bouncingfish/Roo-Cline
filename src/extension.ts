@@ -22,13 +22,13 @@ let outputChannel: vscode.OutputChannel
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-	outputChannel = vscode.window.createOutputChannel("Roo-Code")
+	outputChannel = vscode.window.createOutputChannel("Synthience")
 	context.subscriptions.push(outputChannel)
 
-	outputChannel.appendLine("Roo-Code extension activated")
+	outputChannel.appendLine("Synthience extension activated")
 
 	// Get default commands from configuration
-	const defaultCommands = vscode.workspace.getConfiguration("roo-cline").get<string[]>("allowedCommands") || []
+	const defaultCommands = vscode.workspace.getConfiguration("synthience-cline").get<string[]>("allowedCommands") || []
 
 	// Initialize global state if not already set
 	if (!context.globalState.get("allowedCommands")) {
@@ -44,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
 	)
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("roo-cline.plusButtonClicked", async () => {
+		vscode.commands.registerCommand("synthience-cline.plusButtonClicked", async () => {
 			outputChannel.appendLine("Plus button Clicked")
 			await sidebarProvider.clearTask()
 			await sidebarProvider.postStateToWebview()
@@ -53,19 +53,19 @@ export function activate(context: vscode.ExtensionContext) {
 	)
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("roo-cline.mcpButtonClicked", () => {
+		vscode.commands.registerCommand("synthience-cline.mcpButtonClicked", () => {
 			sidebarProvider.postMessageToWebview({ type: "action", action: "mcpButtonClicked" })
 		}),
 	)
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("roo-cline.promptsButtonClicked", () => {
+		vscode.commands.registerCommand("synthience-cline.promptsButtonClicked", () => {
 			sidebarProvider.postMessageToWebview({ type: "action", action: "promptsButtonClicked" })
 		}),
 	)
 
 	const openClineInNewTab = async () => {
-		outputChannel.appendLine("Opening Roo Code in new tab")
+		outputChannel.appendLine("Opening Synthience in new tab")
 		// (this example uses webviewProvider activation event which is necessary to deserialize cached webview, but since we use retainContextWhenHidden, we don't need to use that event)
 		// https://github.com/microsoft/vscode-extension-samples/blob/main/webview-sample/src/extension.ts
 		const tabProvider = new ClineProvider(context, outputChannel)
@@ -79,7 +79,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 		const targetCol = hasVisibleEditors ? Math.max(lastCol + 1, 1) : vscode.ViewColumn.Two
 
-		const panel = vscode.window.createWebviewPanel(ClineProvider.tabPanelId, "Roo Code", targetCol, {
+		const panel = vscode.window.createWebviewPanel(ClineProvider.tabPanelId, "Synthience", targetCol, {
 			enableScripts: true,
 			retainContextWhenHidden: true,
 			localResourceRoots: [context.extensionUri],
@@ -87,8 +87,8 @@ export function activate(context: vscode.ExtensionContext) {
 		// TODO: use better svg icon with light and dark variants (see https://stackoverflow.com/questions/58365687/vscode-extension-iconpath)
 
 		panel.iconPath = {
-			light: vscode.Uri.joinPath(context.extensionUri, "assets", "icons", "rocket.png"),
-			dark: vscode.Uri.joinPath(context.extensionUri, "assets", "icons", "rocket.png"),
+			light: vscode.Uri.joinPath(context.extensionUri, "assets", "icons", "synthience.png"),
+			dark: vscode.Uri.joinPath(context.extensionUri, "assets", "icons", "synthience.png"),
 		}
 		tabProvider.resolveWebviewView(panel)
 
@@ -97,18 +97,20 @@ export function activate(context: vscode.ExtensionContext) {
 		await vscode.commands.executeCommand("workbench.action.lockEditorGroup")
 	}
 
-	context.subscriptions.push(vscode.commands.registerCommand("roo-cline.popoutButtonClicked", openClineInNewTab))
-	context.subscriptions.push(vscode.commands.registerCommand("roo-cline.openInNewTab", openClineInNewTab))
+	context.subscriptions.push(
+		vscode.commands.registerCommand("synthience-cline.popoutButtonClicked", openClineInNewTab),
+	)
+	context.subscriptions.push(vscode.commands.registerCommand("synthience-cline.openInNewTab", openClineInNewTab))
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("roo-cline.settingsButtonClicked", () => {
+		vscode.commands.registerCommand("synthience-cline.settingsButtonClicked", () => {
 			//vscode.window.showInformationMessage(message)
 			sidebarProvider.postMessageToWebview({ type: "action", action: "settingsButtonClicked" })
 		}),
 	)
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("roo-cline.historyButtonClicked", () => {
+		vscode.commands.registerCommand("synthience-cline.historyButtonClicked", () => {
 			sidebarProvider.postMessageToWebview({ type: "action", action: "historyButtonClicked" })
 		}),
 	)
@@ -203,25 +205,25 @@ export function activate(context: vscode.ExtensionContext) {
 	// Register code action commands
 	registerCodeAction(
 		context,
-		"roo-cline.explainCode",
+		"synthience-cline.explainCode",
 		"EXPLAIN",
-		"What would you like Roo to explain?",
+		"What would you like Synthience to explain?",
 		"E.g. How does the error handling work?",
 	)
 
 	registerCodeAction(
 		context,
-		"roo-cline.fixCode",
+		"synthience-cline.fixCode",
 		"FIX",
-		"What would you like Roo to fix?",
+		"What would you like Synthience to fix?",
 		"E.g. Maintain backward compatibility",
 	)
 
 	registerCodeAction(
 		context,
-		"roo-cline.improveCode",
+		"synthience-cline.improveCode",
 		"IMPROVE",
-		"What would you like Roo to improve?",
+		"What would you like Synthience to improve?",
 		"E.g. Focus on performance optimization",
 	)
 
@@ -230,5 +232,5 @@ export function activate(context: vscode.ExtensionContext) {
 
 // This method is called when your extension is deactivated
 export function deactivate() {
-	outputChannel.appendLine("Roo-Code extension deactivated")
+	outputChannel.appendLine("Synthience extension deactivated")
 }

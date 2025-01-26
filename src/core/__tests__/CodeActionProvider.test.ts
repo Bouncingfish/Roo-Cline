@@ -110,8 +110,8 @@ describe("CodeActionProvider", () => {
 			const actions = provider.provideCodeActions(mockDocument, mockRange, mockContext)
 
 			expect(actions).toHaveLength(2)
-			expect((actions as any)[0].title).toBe("Roo Code: Explain Code")
-			expect((actions as any)[1].title).toBe("Roo Code: Improve Code")
+			expect((actions as any)[0].title).toBe("Synthience: Explain Code")
+			expect((actions as any)[1].title).toBe("Synthience: Improve Code")
 		})
 
 		it("should provide fix action when diagnostics exist", () => {
@@ -126,7 +126,7 @@ describe("CodeActionProvider", () => {
 			const actions = provider.provideCodeActions(mockDocument, mockRange, mockContext)
 
 			expect(actions).toHaveLength(3)
-			expect((actions as any).some((a: any) => a.title === "Roo Code: Fix Code")).toBe(true)
+			expect((actions as any).some((a: any) => a.title === "Synthience: Fix Code")).toBe(true)
 		})
 
 		it("should handle errors gracefully", () => {

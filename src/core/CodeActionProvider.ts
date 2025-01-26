@@ -2,15 +2,15 @@ import * as vscode from "vscode"
 import * as path from "path"
 
 export const ACTION_NAMES = {
-	EXPLAIN: "Roo Code: Explain Code",
-	FIX: "Roo Code: Fix Code",
-	IMPROVE: "Roo Code: Improve Code",
+	EXPLAIN: "Synthience: Explain Code",
+	FIX: "Synthience: Fix Code",
+	IMPROVE: "Synthience: Improve Code",
 } as const
 
 const COMMAND_IDS = {
-	EXPLAIN: "roo-cline.explainCode",
-	FIX: "roo-cline.fixCode",
-	IMPROVE: "roo-cline.improveCode",
+	EXPLAIN: "synthience-cline.explainCode",
+	FIX: "synthience-cline.fixCode",
+	IMPROVE: "synthience-cline.improveCode",
 } as const
 
 interface DiagnosticData {
