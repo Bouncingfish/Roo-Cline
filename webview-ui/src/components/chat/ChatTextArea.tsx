@@ -506,6 +506,11 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(function
 		appearance: "none" as const,
 	}
 
+	const optionStyle = {
+		backgroundColor: "var(--vscode-dropdown-background)",
+		color: "var(--vscode-dropdown-foreground)",
+	}
+
 	const caretContainerStyle = {
 		position: "absolute" as const,
 		left: 6,
@@ -724,20 +729,21 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(function
 								flex: "0 0 auto",
 							}}>
 							{getAllModes(customModes).map((mode) => (
-								<option
-									key={mode.slug}
-									value={mode.slug}
-									style={{
-										backgroundColor: "var(--vscode-dropdown-background)",
-										color: "var(--vscode-dropdown-foreground)",
-									}}>
+								<option key={mode.slug} value={mode.slug} style={{ ...optionStyle }}>
 									{mode.name}
 								</option>
 							))}
-							<option disabled style={{ borderTop: "1px solid var(--vscode-dropdown-border)" }}>
+							<option
+								disabled
+								style={{
+									borderTop: "1px solid var(--vscode-dropdown-border)",
+									...optionStyle,
+								}}>
 								────
 							</option>
-							<option value="prompts-action">Edit...</option>
+							<option value="prompts-action" style={{ ...optionStyle }}>
+								Edit...
+							</option>
 						</select>
 						<div style={caretContainerStyle}>
 							<CaretIcon />
@@ -777,16 +783,22 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(function
 									key={config.name}
 									value={config.name}
 									style={{
-										backgroundColor: "var(--vscode-dropdown-background)",
-										color: "var(--vscode-dropdown-foreground)",
+										...optionStyle,
 									}}>
 									{config.name}
 								</option>
 							))}
-							<option disabled style={{ borderTop: "1px solid var(--vscode-dropdown-border)" }}>
+							<option
+								disabled
+								style={{
+									borderTop: "1px solid var(--vscode-dropdown-border)",
+									...optionStyle,
+								}}>
 								────
 							</option>
-							<option value="settings-action">Edit...</option>
+							<option value="settings-action" style={{ ...optionStyle }}>
+								Edit...
+							</option>
 						</select>
 						<div style={caretContainerStyle}>
 							<CaretIcon />
